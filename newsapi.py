@@ -55,13 +55,6 @@ Today's news: {Title}{desc} \n
 Tech news: {Title_tech} {des_tech}'''
 	
 #opening notepad
-sp.Popen(["notepad","output.txt"])
-
-file = open("output.txt", "w")
-
-file.write(msg_content)
-file.close()
-
 print(msg_content)
 
 
