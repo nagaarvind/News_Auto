@@ -2,7 +2,8 @@ import requests
 # from news_mail import auto_mate
 from newsdataapi import NewsDataApiClient
 import subprocess as sp
-import os
+# from news_mail import auto_mate
+import win32com.client
 
 url_news = "https://bing-news-search1.p.rapidapi.com/news"
 querystring = {"safeSearch":"Off","textFormat":"Raw"}
@@ -50,12 +51,41 @@ for items in response.get('results'):
 # 	content = msg
 # 	file.write(content)
 
+
 msg_content = f'''Good Morning Team:
 Today's news: {Title}{desc} \n
 Tech news: {Title_tech} {des_tech}'''
 	
 #opening notepad
+sp.Popen(["notepad","output.txt"])
+
+file = open("output.txt", "w")
+
+file.write(msg_content)
+file.close()
+
 print(msg_content)
+
+#outllok mail testing
+ol = win32com.client.Dispatch('Outlook.Application')
+
+olmailitem_dimension = 0x0
+newmail = ol.createItem(olmailitem_dimension)
+
+newmail.subject = "Today's news"
+
+newmail.To = "nagaarvind.n@ingrammicro.com"
+newmail.CC = "narayankumar.m@ingrammicro.com"
+
+newmail.Body = msg_content
+newmail.Display()
+
+newmail.send(True)
+
+print("mail sent")
+
+# auto_mate(msg_content)
+
 
 
 # auto_mate(items)
@@ -105,5 +135,6 @@ print(msg_content)
 # response = requests.get(url, headers=headers, params=querystring)
 # # print(response.json()['items'][0])
 # print(response.json()['items'][0]['snippet'])
+
 
 
